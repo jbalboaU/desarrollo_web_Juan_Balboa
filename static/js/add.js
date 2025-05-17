@@ -60,7 +60,7 @@ function changeSector() {
 }
 
 function changeURL() {
-    const redesSelect = document.getElementById("contacto-select");
+    const redesSelect = document.getElementById("contactar_por");
     const redesLabel = document.querySelector("label[for = 'redes']");
     const redesTextarea = document.getElementById("redes");
 
@@ -74,9 +74,9 @@ function changeURL() {
 }
 
 function changeTema() {
-    const temaSelect = document.getElementById("tema-select");
-    const temaLabel = document.querySelector("label[for = 'descripcion-tema']");
-    const temaTextarea = document.getElementById("descripcion-tema");
+    const temaSelect = document.getElementById("tema");
+    const temaLabel = document.querySelector("label[for = 'descripcion_tema']");
+    const temaTextarea = document.getElementById("descripcion_tema");
 
     if(temaSelect.value == "10"){
         temaLabel.style.display = "block";
@@ -89,8 +89,8 @@ function changeTema() {
 
 document.getElementById("region-select").addEventListener("change",updateComuna);
 document.getElementById("comuna-select").addEventListener("change",changeSector);
-document.getElementById("contacto-select").addEventListener("change",changeURL);
-document.getElementById("tema-select").addEventListener("change",changeTema);
+document.getElementById("contactar_por").addEventListener("change",changeURL);
+document.getElementById("tema").addEventListener("change",changeTema);
 
 window.onload = () => {
     poblarRegion();
@@ -99,3 +99,16 @@ window.onload = () => {
 document.getElementById("return").addEventListener("click", function(){
     window.location.href = "portada.html"
 });
+
+const inicio = new Date(document, getElementById('inicio').value);
+const termino = new Date(document, getElementById('termino').value);
+if(termino <= inicio){
+    alert('La fecha de término debe ser posterior a la de inicio');
+    return;
+}
+
+document.getElementById('submit-btn').addEventListener('click', ()=> {
+    if(confirm("¿Desea enviar este formulario?")){
+        document.forms['myForm'].submit();
+    }
+})

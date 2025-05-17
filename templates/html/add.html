@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Agregar-Actividad</title>
-
-    <link rel = "stylesheet" href = "add.css">
+    
+    <link rel = "stylesheet" href = "{{ url_for('static', filename = 'css/add.css')}}">
 </head>
 <body>
     <h1>Formulario</h1>
@@ -28,22 +28,22 @@
                     <option value ="">Seleccione una Comuna</option>
                 </select>
 
-                <label for="sector-text" style = "display:none;">Sector</label>
+                <label for="sector" style = "display:none;">Sector</label>
                 <textarea name="sector" id="sector" rows="4" cols="50" style="display:none;"></textarea>
             </div>
             <div class = "who">
                 <h3>¿Quién organiza?</h3>
                 <label for="nombre">Nombre</label>
-                    <input type = "text" id="nombre" required>
+                    <input name= "nombre" type = "text" id="nombre" required>
 
                 <label for="email">Email</label>
-                    <input type = "email" name ="email" id="email" required>
+                    <input name = "email" type = "email" id="email" required>
                 
-                <label for="phone">Número de Celular</label>
-                    <input type = "tel" id="phone">
+                <label for="celular">Número de Celular</label>
+                    <input type = "tel" name ="celular" id="celular">
 
-                <label for="contacto-select">Contactar por:</label>
-                <select name = "redes" id="contacto-select">
+                <label for="contactar_por">Contactar por:</label>
+                <select name = "contactar_por" id="contactar_por">
                     <option value ="">Seleccione una Red Social</option>
                     <option value ="2">WhatsApp</option>
                     <option value ="2">Telegram</option>
@@ -52,22 +52,22 @@
                     <option value ="5">Tiktok</option>
                 </select>
 
-                <label for="redes" style = "display:none;">URL</label>
-                <textarea name="URL" id="redes" rows="2" cols="50" minlength="4" maxlength="50" style="display:none;"></textarea>
+                <label for="contacto_id" style = "display:none;">URL</label>
+                <textarea name="contacto_id" id="contacto_id" rows="2" cols="50" minlength="4" maxlength="50" style="display:none;"></textarea>
             </div>
             <div class = "when">
                 <h3>¿Cuándo y de qué trata?</h3>
                 <label for="inicio">Día hora inicio</label>
-                    <input type = "datetime-local" id="inicio" required>
+                    <input type = "datetime-local" name="inicio" id="inicio" required>
                 
                 <label for="termino">Día hora término</label>
-                    <input type = "datetime-local" id="termino">
+                    <input type = "datetime-local" name="termino" id="termino">
                 
                 <label for="descripcion">Descripción</label>
                     <textarea name="descripcion" id="descripcion" rows="10" cols="50" ></textarea>
                 
                 <label for="tema">Tema</label>
-                <select name = "tema" id ="tema-select" required>
+                <select name = "tema" id ="tema" required>
                     <option value = "">Seleccione un tema</option>
                     <option value = "1">Música</option>
                     <option value = "2">Deporte</option>
@@ -81,11 +81,11 @@
                     <option value = "10">Otros</option>
                 </select>
 
-                <label for="descripcion-tema" style = "display:none;">¿De qué trata?</label>
-                <textarea name="descripcion-tema" id="descripcion-tema" rows="2" cols="50" minlength="4" maxlength="50" style="display:none;"></textarea>
+                <label for="descripcion_tema" style = "display:none;">¿De qué trata?</label>
+                <textarea name="descripcion_tema" id="descripcion_tema" rows="2" cols="50" minlength="4" maxlength="50" style="display:none;"></textarea>
 
-                <label for="files">Foto</label>
-                    <input type = "file" id="files" required>
+                <label for="fotos">Foto</label>
+                    <input name="fotos"type="file" id="fotos" required>
             </div>
                 
                 <button class = "submit-btn" id="submit-btn" type = "button">Agregar esta actividad</button>
@@ -95,6 +95,6 @@
         <button class = "return" id = "return">Inicio</button>
     </div>
     <script src="validation.js"></script>
-    <script src="add.js"></script>
+    <script src="{{ url_for('static', filename = 'js/add.js')}}"></script>
 </body>
 </html>

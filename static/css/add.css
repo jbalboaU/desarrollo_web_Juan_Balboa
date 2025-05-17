@@ -1,18 +1,3 @@
-body {
-    background-color: rgba(140, 190, 200, 0.7);
-    text-align: center;
-}
-
-h1 {
-    color:  rgba(130, 255, 212);
-    font-family: sans-serif;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    padding-top: 30px;
-    font-size: 43px;
-    font-style: italic;
-    text-align: center;
-}
 
 .main-container{
     width:400px;
