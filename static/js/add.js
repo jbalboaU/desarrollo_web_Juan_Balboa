@@ -1,114 +1,58 @@
-data = {
-    "Arica y Parinacota": ["Arica", "Camarones", "Putre", "General Lagos"],
-    "Tarapacá": ["Iquique", "Alto Hospicio", "Camiña", "Colchane", "Huara", "Pica"],
-    "Antofagasta": ["Antofagasta", "Mejillones", "Sierra Gorda", "Taltal", "Calama", "Ollagüe", "San Pedro de Atacama", "Tocopilla", "María Elena"],
-    "Atacama": ["Copiapó", "Caldera", "Tierra Amarilla", "Chañaral", "Diego de Almagro"],
-    "Coquimbo": ["La Serena", "Coquimbo", "Andacollo", "La Higuera", "Paihuano", "Vicuña", "Ovalle", "Río Hurtado", "Punitaqui", "Combarbalá", "Monte Patria", "San Juan de los Morros", "Salamanca", "Los Vilos"],
-    "Valparaíso": ["Valparaíso", "Viña del Mar", "Concón", "Quintero", "Puchuncaví", "Limache", "Olmué", "Villa Alemana", "San Felipe", "Los Andes", "Quillota", "La Calera", "Nogales", "La Ligua", "Petorca", "Cabildo", "Catemu", "San Esteban"],
-    "Región Metropolitana": ["Santiago", "Cerro Navia", "El Bosque", "Estación Central", "Huechuraba", "Independencia", "La Cisterna", "La Florida", "La Granja", "La Pintana", "Las Condes", "Lo Barnechea", "Lo Espejo", "Lo Prado", "Macul", "Maipú", "Ñuñoa", "Pedro Aguirre Cerda", "Peñalolén", "Providencia", "Puente Alto", "Quinta Normal", "Recoleta", "Renca", "San Bernardo", "San Joaquín", "San Miguel", "Santiago", "Vitacura"],
-    "Libertador General Bernardo O'Higgins": ["Rancagua", "Machalí", "Mostazal", "Graneros", "Chimbarongo", "San Vicente", "Pichidegua", "Peumo", "Coltauco", "Doñihue", "Requínoa", "Coinco", "Las Cabras", "Pichilemu", "La Estrella", "Lolol", "Peralillo", "Placilla", "Nancagua", "Santa Cruz", "Chépica", "Cachapoal", "San Fernando"],
-    "Maule": ["Talca", "Constitución", "Curicó", "Linares", "San Javier", "San Clemente", "Colbún", "Maule", "Pelarco", "Pencahue", "Rauco", "Cauquenes", "Retiro", "Villa Alegre", "Longaví", "Colbún", "Parral"],
-    "Ñuble": ["Chillán", "Chillán Viejo", "Quirihue", "San Carlos", "San Nicolás", "Yungay", "Pinto", "El Carmen", "Ñiquén", "Pemuco", "Cobquecura", "Coihueco"],
-    "Biobío": ["Concepción", "Chiguayante", "Hualpén", "Hualqui", "Lota", "Penco", "San Pedro de la Paz", "Talcahuano", "Coronel", "Tomé", "Santa Juana", "Florida", "Arauco", "Cabrero", "Mulchén", "Laja", "Nacimiento", "Negrete", "San Rosendo", "Alto Biobío"],
-    "La Araucanía": ["Temuco", "Angol", "Cunco", "Curacautín", "Curarrehue", "Freire", "Galvarino", "Gorbea", "Loncoche", "Los Sauces", "Lumaco", "Melipeuco", "Nueva Imperial", "Perquenco", "Pitrufquén", "Pucón", "Saavedra", "Vilcún", "Villarrica"],
-    "Los Ríos": ["Valdivia", "La Unión", "Río Bueno", "Corral", "Futrono", "Lago Ranco", "Los Lagos", "Máfil", "Mariquina", "Paillaco", "Panguipulli", "Lanco"],
-    "Los Lagos": ["Osorno", "Puerto Montt", "Castro", "Ancud", "Puerto Varas", "Calbuco", "Frutillar", "Purranque", "San Juan de la Costa", "Puerto Octay", "San Pablo", "Dalcahue", "Curaco de Vélez", "Chonchi", "Quemchi", "Achao", "Cucao", "Maullín", "Hualaihué"],
-    "Aysén del General Carlos Ibáñez del Campo": ["Coyhaique", "Aysén", "Cisnes", "Guaitecas", "Lago Verde", "Río Ibáñez", "Chile Chico", "Cochrane", "Ohiggins", "Tortel"],
-    "Magallanes y de la Antártica Chilena": ["Punta Arenas", "Puerto Natales", "Porvenir", "Puerto Williams", "Cabo de Hornos", "Laguna Blanca", "Río Verde"]
-};
+document.addEventListener("DOMContentLoaded", function() {
+    let regionSelect = document.getElementById("region");
+    let comunaSelect =document.getElementById("comuna");
+    const allComunas = Array.from(comunaSelect.options).slice(1);
 
-const poblarRegion= () => {
-    let regionSelect = document.getElementById("region-select");
-    for (const region in data) {
-        let option = document.createElement("option");
-        option.value = region;
-        option.text = region;
-        regionSelect.appendChild(option)
+    function filtrarComunas() {
+        let regionId=regionSelect.value;
+        comunaSelect.innerHTML = '<option value="">Seleccione una comuna</option>';
+
+        let comunasFiltradas = allComunas.filter(option => option.dataset.region === regionId);
+        comunasFiltradas.forEach(option => comunaSelect.appendChild(option));
     }
-}
 
-const updateComuna = () => {
-    let regionSelect = document.getElementById("region-select");
-    let comunaSelect =document.getElementById("comuna-select");
-    let regionSelected = regionSelect.value;
+    regionSelect.addEventListener("change", filtrarComunas);
 
-    comunaSelect.innerHTML = '<option value="">Seleccione una comuna</option>';
-
-    if(data[regionSelected]){
-        data[regionSelected].forEach(comuna => {
-            let option = document.createElement("option");
-            option.value = comuna;
-            option.text = comuna;
-            comunaSelect.appendChild(option)
-        })
+    if (regionSelect.value) {
+        filtrarComunas();
     }
-    changeSector();
-}
-
-function changeSector() {
-    const comunaSelect = document.getElementById("comuna-select");
-    const sectorLabel = document.querySelector("label[for = 'sector-text']");
-    const sectorTextarea = document.getElementById("sector");
-
-    if(comunaSelect.value !== ""){
-        sectorLabel.style.display = "block";
-        sectorTextarea.style.display = "block";
-    } else {
-        sectorLabel.style.display = "none";
-        sectorTextarea.style.display = "none";
-    }
-}
-
-function changeURL() {
-    const redesSelect = document.getElementById("contactar_por");
-    const redesLabel = document.querySelector("label[for = 'redes']");
-    const redesTextarea = document.getElementById("redes");
-
-    if(redesSelect.value !== ""){
-        redesLabel.style.display = "block";
-        redesTextarea.style.display = "block";
-    } else {
-        redesLabel.style.display = "none";
-        redesTextarea.style.display = "none";
-    }
-}
-
-function changeTema() {
-    const temaSelect = document.getElementById("tema");
-    const temaLabel = document.querySelector("label[for = 'descripcion_tema']");
-    const temaTextarea = document.getElementById("descripcion_tema");
-
-    if(temaSelect.value == "10"){
-        temaLabel.style.display = "block";
-        temaTextarea.style.display = "block";
-    } else {
-        temaLabel.style.display = "none";
-        temaTextarea.style.display = "none";
-    }
-}
-
-document.getElementById("region-select").addEventListener("change",updateComuna);
-document.getElementById("comuna-select").addEventListener("change",changeSector);
-document.getElementById("contactar_por").addEventListener("change",changeURL);
-document.getElementById("tema").addEventListener("change",changeTema);
-
-window.onload = () => {
-    poblarRegion();
-};
-
-document.getElementById("return").addEventListener("click", function(){
-    window.location.href = "portada.html"
 });
 
-const inicio = new Date(document, getElementById('inicio').value);
-const termino = new Date(document, getElementById('termino').value);
-if(termino <= inicio){
-    alert('La fecha de término debe ser posterior a la de inicio');
-    return;
+
+function activateContactoId() {
+    const contactarPor= document.getElementById("contactar_por");
+    const contactoId = document.querySelector("label[for = 'contacto_id']");
+    const textContactoId = document.getElementById("contacto_id");
+
+    if(contactarPor.value !== ""){
+        contactoId.style.display = "block";
+        textContactoId.style.display = "block";
+    } else {
+        contactoId.style.display = "none";
+        textContactoId.style.display = "none";
+    }
 }
 
-document.getElementById('submit-btn').addEventListener('click', ()=> {
-    if(confirm("¿Desea enviar este formulario?")){
-        document.forms['myForm'].submit();
+
+function activateDescripcionTema() {
+    const tema = document.getElementById("tema");
+    const descripcionTema = document.querySelector("label[for = 'descripcion_tema']");
+    const textDescripcionTema = document.getElementById("descripcion_tema");
+
+    if(tema.value === "otro"){
+        descripcionTema.style.display = "block";
+        textDescripcionTema.style.display = "block";
+    } else {
+        descripcionTema.style.display = "none";
+        textDescripcionTema.style.display = "none";
     }
-})
+}
+
+document.getElementById("contactar_por").addEventListener("change", activateContactoId);
+document.getElementById("tema").addEventListener("change", activateDescripcionTema);
+
+window.onload = () => {
+    activateContactoId();
+    activateDescripcionTema();
+    document.getElementById("val-box").hidden = true;
+};

@@ -1,0 +1,58 @@
+{% extends 'base.html' %} {% block title %} Listado {% endblock %} {% block css%}
+    <link 
+    rel="stylesheet" 
+    type="text/css"
+    href="{{url_for('static', filename = 'css/list.css')}}">
+{% endblock %} {% block content %}
+    <h1>Lista de Actividades</h1>
+    <div class = "contenedor">
+        <table class = "table">
+            <tr class = "table-header">
+                <th>Inicio</th>
+                <th>Término</th>
+                <th>Comuna</th>
+                <th>Sector</th>
+                <th>Tema</th>
+                <th>Foto</th>
+                </tr>
+            {% for actividad in actividades %}
+            <tr>
+                <td><a href="{{ url_for('detalle_actividad', actividad_id=actividad.id) }}">{{ actividad.dia_hora_inicio }}</a></td>
+                <td><a href="{{ url_for('detalle_actividad', actividad_id=actividad.id) }}">{{ actividad.dia_hora_termino }}</a></td>
+                <td><a href="{{ url_for('detalle_actividad', actividad_id=actividad.id) }}">{{ actividad.comuna.nombre }}</a></td>
+                <td><a href="{{ url_for('detalle_actividad', actividad_id=actividad.id) }}">{{ actividad.sector }}</a></td>
+                <td>
+                    <a href="{{ url_for('detalle_actividad', actividad_id=actividad.id) }}">
+                    {% if actividad.temas %}
+                        {{ actividad.temas[0].tema}}</a>
+                    {% endif %}
+                </td>
+                <td>
+                    <a href="{{ url_for('detalle_actividad', actividad_id=actividad.id) }}">
+                    {% if actividad.fotos %}
+                        <img src="{{ url_for('static', filename=actividad.fotos[0].ruta_archivo) }}" alt="foto_actividad"></a>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+        <div class="pagination">
+            {% if pagination.has_prev %}
+            <a href="{{ url_for('listado', page=pagination.prev_num) }}">Anterior</a>
+            {% else %}
+            <span>Anterior</span>
+            {% endif %}
+
+            <span>Página {{ pagination.page }} de {{ pagination.pages }}</span>
+
+            {% if pagination.has_next %}
+            <a href="{{ url_for('listado', page=pagination.next_num) }}">Siguiente</a>
+            {% else %}
+            <span>Siguiente</span>
+            {% endif %}
+        </div>
+    </div>
+
+    <a type="button" href="{{ url_for('index') }}" class="return-button"> Inicio </a>
+    {% endblock %} {% block javascript %}
+    {% endblock %}

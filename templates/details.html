@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% block title %}Detalle Actividad{% endblock %}
+{% block css%}
+    <link
+    rel = "stylesheet"
+    type = "text/css"
+    href = "{{ url_for('static', filename = 'css/details.css')}}"
+    />
+{% endblock %}
+{% block content %}
+<h1>Detalle de Actividad</h1>
+
+<p><b>Inicio:</b> {{ actividad.dia_hora_inicio }}</p>
+<p><b>Término:</b> {{ actividad.dia_hora_termino }}</p>
+<p><b>Comuna:</b> {{ actividad.comuna.nombre }}</p>
+<p><b>Sector:</b> {{ actividad.sector }}</p>
+
+<p><b>Tema:</b>
+    {% if actividad.temas %}
+        {{ actividad.temas[0].tema }}
+    {% endif %}
+</p>
+
+<p><b>Nombre:</b> {{ actividad.nombre }}</p>
+<p><b>Organizador:</b> {{ actividad.organizador }}</p>
+<p><b>Total Fotos:</b> {{ actividad.fotos|length }}</p>
+
+<div class="fotos-detalle">
+    {% for foto in actividad.fotos %}
+        <img src="{{ url_for('static', filename=foto.ruta_archivo) }}" 
+            alt="foto" 
+            width="320" height="240"
+            onclick="mostrarFotoGrande(this.src)">
+    {% endfor %}
+</div>
+
+<a href="{{ url_for('listado') }}">Volver al listado</a>
+<a href="{{ url_for('index') }}">Volver a portada</a>
+
+
+<div id="modalFoto">
+    <img id="fotoGrande" src="">
+    <button onclick="cerrarModal()">Cerrar</button>
+</div>
+
+<script>
+function mostrarFotoGrande(src) {
+    const modal = document.getElementById('modalFoto');
+    const fotoGrande = document.getElementById('fotoGrande');
+    fotoGrande.src = src;
+    modal.style.display = 'flex';
+}
+
+function cerrarModal() {
+    const modal = document.getElementById('modalFoto');
+    modal.style.display = 'none';
+}
+</script>
+
+{% endblock %}

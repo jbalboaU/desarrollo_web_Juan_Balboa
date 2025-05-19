@@ -1,15 +1,15 @@
 h1 {
-    color:  rgba(130, 255, 212);
+    padding-top: 30px;
+    color:  rgb(39, 41, 141);
     font-family: sans-serif;
+    font-size: 45px;
+    font-style: italic;
     letter-spacing: 1px;
     text-transform: uppercase;
-    padding-top: 30px;
-    font-size: 43px;
-    font-style: italic;
 }
 
 body {
-    background-color: rgba(140, 190, 200, 0.7);
+    background-color: rgba(234, 247, 188, 0.7);
     text-align: center;
 }
 

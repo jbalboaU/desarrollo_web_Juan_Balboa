@@ -1,4 +1,4 @@
--- Active: 1747350069595@@127.0.0.1@3306@tarea2
-CREATE USER 'cc5002'@'localhost' IDENTIFIED BY 'cc5002';
+-- Active: 1747452264192@@127.0.0.1@3306@mysql
+CREATE USER 'cc5002'@'localhost' IDENTIFIED BY 'programacionweb';
 
 DROP USER 'cc5002'@'localhost';

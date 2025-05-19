@@ -1,65 +1,63 @@
-.front {
-    width:950px;
-    height: 600px;
-    background-color: rgba(0, 150, 100, 0.5);
-    text-align: center;
-    margin: auto;
-    margin-top: 150px;
-    border-radius:7px;
-    border: 3px solid #036d;
-    box-shadow: 2px 2px 10px 1px;
-}
-
-.buttons{
-    padding-bottom: 30px;
-}
-
-.add, .list ,.stats {
-    padding: 10px;
-    border-radius: 5px;
-    border: None;
+.add-button, .list-button ,.stats-button {
+    padding: 8px;
     font-family: sans-serif;
     text-transform: uppercase;
     font-weight: bold;
-    background-color:rgba(130, 255, 212);
-    color: rgba(0, 0, 0, 0.7);
-}
-
-.table-header{
-    background-color: rgba(130, 255, 212);
-    text-transform: uppercase;
-    font-weight: bolder;
-    color: rgba(0, 0, 0, 0.7);
+    background-color:rgb(39, 41, 141);
+    color: rgba(255, 255, 255);
+    margin: 7px;
+    text-decoration: none;
+    border: 3px solid rgba(182, 161, 255, 0.7);
     border-radius: 5px;
 }
 
-
-.add:hover , .list:hover, .stats:hover {
-    color:rgba(130, 255, 212);
-    background-color: rgba(0, 0, 0, 0.7);
+.add-button:hover , .list-button:hover, .stats-button:hover {
+    color:rgb(39, 41, 141);
+    background-color: rgba(182, 161, 255, 0.7);
 }
 
-.add-activity:active , .view-activities:active, .stats:active {
-    background-color:rgba(130, 255, 212);
-    color: rgba(0, 0, 0, 0.7);
+h2 {
+    padding-top: 30px;
+    color:  rgb(39, 41, 141);
+    font-family: sans-serif;
+    font-size: 35px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
 }
 
-.table {
+.contenedor {
+    width: fit-content;
+    max-width: 200vw;
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+    padding: 25px;
     margin: auto;
+    overflow-x: auto;
+}
+
+table {
+    border-spacing: 5px;
+    border-collapse: separate;
+
+}
+th {
+    background-color: rgb(39, 41, 141);
+    padding: 5px;
+    margin: 5px;
+    color: rgba(255, 255, 255);
+    font-weight: bolder;
+    text-transform: uppercase;
+    border-radius: 5px;
 }
 
 td {
-    font-family: sans-serif;
     color: rgba(0, 0, 0, 0.7);
+    font-family: sans-serif;
     font-weight: 500;
     padding: 7px;
     border-bottom: 1px solid rgba(255, 255, 255);
     border-right: 1px solid rgba(255, 255, 255);
 }
 
-img {
-    height: 40px;
-    width: 40px;
-}
 
 

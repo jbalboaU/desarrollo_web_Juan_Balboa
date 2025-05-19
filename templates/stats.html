@@ -1,0 +1,25 @@
+{% extends 'base.html' %} {% block title %} Estadísticas {% endblock %} {% block css%}
+    <link
+        rel = "stylesheet"
+        type = "text/css"
+        href = "{{ url_for('static', filename = 'css/stats.css')}}"
+    />
+    {% endblock %} {% block content %}
+    <h1>Estadísticas</h1>
+
+    <div class = "contenedor-1">
+        <h2>Actividades por día</h2>
+        <img src="{{ url_for('static', filename='img/grafico-1.png') }}" alt="Actividades por día">
+    </div>
+    <div class = "contenedor-2">
+        <h2> Total de actividades por tipo</h2>
+        <img src="{{ url_for('static', filename='img/grafico-2.png') }}" alt="Total de actividades por tipo">
+    </div>
+    <div class = "contenedor-3">
+        <h2> Actividades por mes según horario</h2>
+        <img src="{{ url_for('static', filename='img/grafico-3.png') }}" alt="Actividades por mes según horario en que se imparte">
+    </div>
+
+    <a type="button" href="{{ url_for('index') }}" class="return-button"> Inicio </a>
+    {% endblock %} {% block javascript %}
+    {% endblock %}
