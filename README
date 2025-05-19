@@ -1,0 +1,5 @@
+
+En el apartado Lista, se debe presionar el texto para abrir la pestaña de detalles.
+En el formulario, se pueden seleccionar más de dos temas y contactos, pero para ello debe presionarse ctrl+click_izquierdo en las opciones a seleccionar.
+Lo mismo para las imágenes, en el detalle saldrán todas las que se presionen segúne el ctrl+click_izquierdo, pero en el Listado solo la primera.
+Puede que hayan algunos valores nada que ver en la tabla en caso de que no se reinicien los esquemas, fue los que use para probar.

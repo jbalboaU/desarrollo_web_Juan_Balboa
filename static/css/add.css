@@ -1,0 +1,107 @@
+h2, h3, label{
+    color:  rgb(39, 41, 141);
+    font-family: sans-serif;
+    font-size: 20px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin: auto;
+}
+
+label {
+    font-size: 16px;
+}
+
+label,  select, textarea, input {
+    width: 100%;
+    max-width: 200px;
+}
+
+input:focus{
+    color:  rgb(39, 41, 141);
+    background-color: rgba(255, 255, 255);
+    font-family: sans-serif;
+    font-size: 16px;
+    margin: auto;
+    border-radius: 5px;
+}
+
+select, textarea, input{
+    color:  rgba(255, 255, 255);
+    background-color: rgb(39, 41, 141);
+    font-family: sans-serif;
+    font-size: 16px;
+    margin: auto;
+    border-radius: 5px;
+}
+
+#val-box {
+    width: fit-content;
+    max-width: 2000px;
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+    border-left: 3px solid rgba(206, 35, 35, 0.986);
+    padding: 25px;
+    margin: auto;
+    margin-bottom: 10px;
+    overflow-x: auto;
+}
+
+#val-msg {
+    color:  rgb(39, 41, 141);
+    font-family: sans-serif;
+    font-size: 20px;
+    text-transform: uppercase;
+    letter-spacing: 0px;
+    margin: auto;
+    font-style: normal;
+}
+
+.donde, .quien, .cuando {
+    width: fit-content;
+    padding: 20px;
+    margin: auto;
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    border-radius: 5px;
+    border: 3px solid  rgb(39, 41, 141);
+}
+
+.contenedor-form{
+    width: fit-content;
+    max-width: 2000px;
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+    padding: 25px;
+    margin: auto;
+    overflow-x: auto;
+    border: 4px solid rgba(255, 255, 255);
+}
+
+
+.return-button, .submit, .boton-confirmar, .boton-cancelar, .boton-return{
+    display: block;
+    width: fit-content;
+    margin: 20px auto;
+    padding: 8px;
+    font-family: sans-serif;
+    text-transform: uppercase;
+    font-weight: bold;
+    text-decoration: none;
+    background-color:rgb(39, 41, 141);
+    color: rgba(255, 255, 255);
+    border: 3px solid rgba(182, 161, 255, 0.7);
+    border-radius: 5px;
+}
+
+
+.submit{
+    font-size: 14px;
+}
+
+.return-button:hover, .submit:hover, .boton-confirmar:hover, .boton-cancelar:hover, .boton-return:hover{
+    color:rgb(39, 41, 141);
+    background-color: rgba(182, 161, 255, 0.7);
+}
