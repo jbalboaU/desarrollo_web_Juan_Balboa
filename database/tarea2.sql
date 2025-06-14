@@ -144,11 +144,11 @@ VALUES
 -- FOTOS
 INSERT INTO foto (id, ruta_archivo, nombre_archivo, actividad_id)
 VALUES
-(1, 'img/boxeo.png', 'boxeo.png', 1),
-(2, 'img/frutas.jpg', 'frutas.jpg', 2),
-(3, 'img/musica.png', 'musica.png', 3),
-(4, 'img/gaming.png', 'gaming.png', 4),
-(5, 'img/programacion.jpg', 'programacion.jpg', 5);
+(1, 'uploads/boxeo.png', 'boxeo.png', 1),
+(2, 'uploads/frutas.jpg', 'frutas.jpg', 2),
+(3, 'uploads/musica.png', 'musica.png', 3),
+(4, 'uploads/gaming.png', 'gaming.png', 4),
+(5, 'uploads/programacion.jpg', 'programacion.jpg', 5);
 
 
 -- TEMAS

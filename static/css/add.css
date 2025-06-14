@@ -7,16 +7,19 @@ h2, h3, label{
     margin: auto;
 }
 
+
 label {
     font-size: 16px;
-}
-
-label,  select, textarea, input {
+    font-weight: bold;
+    color: rgb(39, 41, 141);
+    margin-bottom: 5px;
+    display: block;
+    text-align: left;
     width: 100%;
-    max-width: 200px;
 }
 
-input:focus{
+
+input:focus, textarea:focus, select:focus{
     color:  rgb(39, 41, 141);
     background-color: rgba(255, 255, 255);
     font-family: sans-serif;
@@ -26,6 +29,8 @@ input:focus{
 }
 
 select, textarea, input{
+    width: 100%;
+    max-width: 200px;
     color:  rgba(255, 255, 255);
     background-color: rgb(39, 41, 141);
     font-family: sans-serif;

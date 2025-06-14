@@ -3,7 +3,7 @@
     rel = "stylesheet"
     type = "text/css"
     href = "{{ url_for('static', filename = 'css/add.css')}}"
-    />
+    >
 {% endblock %} {% block content %}
     <h1>Formulario</h1>
 
@@ -102,7 +102,7 @@
 
                 <label for="fotos">Foto</label>
                 <div id="contenedor-foto">
-                    <input name="fotos[]"type="file" id="fotos" multiple required>
+                    <input name="fotos[]" type="file" id="fotos" multiple required>
                 </div>
             </div>
 
@@ -110,9 +110,8 @@
             </form>
             
         </div>
-
-            <a type="button" href="{{ url_for('index') }}" class="return-button"> Inicio </a>
-
+            <a href="{{ url_for('index') }}" class="return-button"> Inicio </a>
+    </div>
     {% endblock %}{% block javascript %}
     <script src="{{ url_for('static', filename='js/add.js') }}"></script>
     <script src="{{ url_for('static', filename='js/validation.js') }}"></script>

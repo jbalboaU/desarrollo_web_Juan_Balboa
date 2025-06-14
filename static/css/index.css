@@ -1,62 +1,57 @@
 .add-button, .list-button ,.stats-button {
-    padding: 8px;
-    font-family: sans-serif;
+    padding: 12px 24px;
+    font-family: inherit;
     text-transform: uppercase;
     font-weight: bold;
     background-color:rgb(39, 41, 141);
-    color: rgba(255, 255, 255);
-    margin: 7px;
+    color: white;
+    margin: 10px;
     text-decoration: none;
     border: 3px solid rgba(182, 161, 255, 0.7);
-    border-radius: 5px;
+    border-radius: 8px;
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+    transition: all 0.3s ease;
 }
 
 .add-button:hover , .list-button:hover, .stats-button:hover {
     color:rgb(39, 41, 141);
     background-color: rgba(182, 161, 255, 0.7);
-}
-
-h2 {
-    padding-top: 30px;
-    color:  rgb(39, 41, 141);
-    font-family: sans-serif;
-    font-size: 35px;
-    letter-spacing: 1px;
-    text-transform: uppercase;
+    box-shadow: 4px 4px 10px rgba(0,0,0,0.4);
 }
 
 .contenedor {
     width: fit-content;
-    max-width: 200vw;
-    background-color: rgba(0, 0, 0, 0.2);
-    border-radius: 5px;
+    max-width: 95%;
+    background-color: rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
     padding: 25px;
-    margin: auto;
+    margin: 40px auto;
     overflow-x: auto;
+    box-shadow: 0px 0px 10px rgba(0,0,0,0.3);
 }
 
 table {
-    border-spacing: 5px;
+    width: 100%;
+    border-spacing: 3px;
     border-collapse: separate;
 
 }
 th {
     background-color: rgb(39, 41, 141);
-    padding: 5px;
-    margin: 5px;
+    padding: 12px;
     color: rgba(255, 255, 255);
-    font-weight: bolder;
+    font-weight: bold;
     text-transform: uppercase;
-    border-radius: 5px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
 }
 
 td {
-    color: rgba(0, 0, 0, 0.7);
-    font-family: sans-serif;
     font-weight: 500;
-    padding: 7px;
-    border-bottom: 1px solid rgba(255, 255, 255);
-    border-right: 1px solid rgba(255, 255, 255);
+    padding: 10px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    border-left: 1px solid rgba(0, 0, 0, 0.1);
+    border-right: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 

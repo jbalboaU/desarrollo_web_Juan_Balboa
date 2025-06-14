@@ -115,5 +115,3 @@ document.forms['myForm'].addEventListener('submit', (e) => {
         e.preventDefault();  // evita envío si hay errores
     }
 });
-
-

@@ -5,7 +5,7 @@
     rel = "stylesheet"
     type = "text/css"
     href = "{{ url_for('static', filename = 'css/details.css')}}"
-    />
+    >
 {% endblock %}
 {% block content %}
 <h1>Detalle de Actividad</h1>
@@ -21,8 +21,8 @@
     {% endif %}
 </p>
 
-<p><b>Nombre:</b> {{ actividad.nombre }}</p>
-<p><b>Organizador:</b> {{ actividad.organizador }}</p>
+<p><b>Descripción:</b> {{ actividad.descripcion }}</p>
+<p><b>Organizador:</b> {{ actividad.nombre }}</p>
 <p><b>Total Fotos:</b> {{ actividad.fotos|length }}</p>
 
 <div class="fotos-detalle">
@@ -34,12 +34,30 @@
     {% endfor %}
 </div>
 
-<a href="{{ url_for('listado') }}">Volver al listado</a>
-<a href="{{ url_for('index') }}">Volver a portada</a>
+<hr>
+<h2> Comentarios </h2>
+<div id="comentarios"></div>
+
+<form id="form_comentario">
+    <input type="hidden" id="actividad_id" value="{{ actividad.id }}">
+    <label for="nombre">Nombre:</label><br>
+    <input type="text" id="nombre" required minlength="3" maxlength="80"><br>
+
+    <label for="texto">Comentario:</label><br>
+    <textarea id="texto" rows="4" cols="50" required minlength="5" maxlength="300"></textarea>
+
+    <button class ="comment-button" type="submit">Agregar comentario</button>
+</form>
+
+<div id="errores" style="color:red;"></div>
+
+<a href="{{ url_for('listado') }}" class="return-list">Volver al listado</a>
+<a href="{{ url_for('index') }}" class="return-index">Volver a portada</a>
 
 
 <div id="modalFoto">
-    <img id="fotoGrande" src="">
+    //pondré un src aleatorio para que no salga error en el validador html.
+    <img id="fotoGrande" src="static/img/placeholder.png" alt="foto grande">
     <button onclick="cerrarModal()">Cerrar</button>
 </div>
 
@@ -55,6 +73,44 @@ function cerrarModal() {
     const modal = document.getElementById('modalFoto');
     modal.style.display = 'none';
 }
+
+function cargarComentarios() {
+    const actividad_id=document.getElementById('actividad_id').value;
+    fetch(`/comentarios/${actividad_id}`)
+    .then(response => response.json())
+    .then(data =>{
+        const comentariosDiv = document.getElementById('comentarios');
+        comentariosDiv.innerHTML = "";
+        data.forEach(c=> {
+            comentariosDiv.innerHTML += `<p><b>${c.nombre}</b> [${c.fecha}]<br>${c.texto}</p>`;
+        });
+    });
+}
+
+document.getElementById('form_comentario').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const nombre = document.getElementById('nombre').value;
+    const texto = document.getElementById('texto').value;
+    const actividad_id = document.getElementById('actividad_id').value;
+
+    fetch('/agregar_comentario', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({nombre, texto, actividad_id})
+    })
+    .then(res=> res.json())
+    .then(data => {
+        if(data.success){
+            cargarComentarios();
+            document.getElementById('form_comentario').reset();
+            document.getElementById('errores').innerHTML="";
+        } else {
+            document.getElementById('errores').innerHTML = data.errors.join("\n");
+        }
+    });
+});
+
+cargarComentarios();
 </script>
 
 {% endblock %}

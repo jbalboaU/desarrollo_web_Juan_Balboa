@@ -3,13 +3,13 @@
         rel = "stylesheet"
         type = "text/css"
         href = "{{ url_for('static', filename = 'css/index.css')}}"
-    />
+    >
     {% endblock %} {% block content %}
     <h1>Bienvenido</h1>
         <div class = "buttons">
-            <a type="button" href="{{ url_for('agregar') }}" class="add-button" id="add-button"> Agregar actividad </a>
-            <a type="button" href="{{ url_for('listado') }}" class="list-button" id="list-button"> Ver listado de actividades </a>
-            <a type="button" href="{{ url_for('estadistica') }}" class="stats-button" id="stats-button"> Estadísticas </a>
+            <a href="{{ url_for('agregar') }}" class="add-button" id="add-button"> Agregar actividad </a>
+            <a href="{{ url_for('listado') }}" class="list-button" id="list-button"> Ver listado de actividades </a>
+            <a href="{{ url_for('estadistica') }}" class="stats-button" id="stats-button"> Estadísticas </a>
         </div>
         <h2> Últimas 5 actividades</h2>
             <div class="contenedor">
@@ -35,7 +35,7 @@
                         </td>
                         <td>
                             {% if actividad.fotos %}
-                                <img src="{{ url_for('static', filename=actividad.fotos[0].ruta_archivo) }}" alt="foto_actividad" width="50px" height="50">
+                                <img src="{{ url_for('static', filename=actividad.fotos[0].ruta_archivo) }}" alt="foto_actividad" width="50" height="50">
                             {% endif %}
                         </td>
                     </tr>

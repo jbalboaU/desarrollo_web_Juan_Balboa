@@ -1,5 +1,16 @@
 from app import db
-from datetime import datetime
+from datetime import datetime, timezone
+
+class Comentario(db.Model):
+    __tablename__='comentario'
+
+    id = db.Column(db.Integer, primary_key=True)
+    nombre = db.Column(db.String(80), nullable=False)
+    texto = db.Column(db.String(300), nullable=False)
+    fecha = db.Column(db.DateTime, nullable=False, default=lambda:datetime.now(timezone.utc))
+    actividad_id = db.Column(db.Integer, db.ForeignKey('actividad.id'), nullable=False)
+
+    actividad = db.relationship("Actividad", back_populates="comentarios")
 
 class Region(db.Model):
     __tablename__ = 'region'
@@ -36,7 +47,7 @@ class Actividad(db.Model):
     fotos = db.relationship('Foto', backref='actividad', lazy=True)
     formas_contacto = db.relationship('ContactarPor', backref='actividad', lazy=True)
     temas = db.relationship('ActividadTema', backref='actividad', lazy=True)
-
+    comentarios = db.relationship('Comentario', back_populates='actividad', cascade="all, delete-orphan")
 
 class Foto(db.Model):
     __tablename__ = 'foto'

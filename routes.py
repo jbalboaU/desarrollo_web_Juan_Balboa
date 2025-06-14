@@ -1,11 +1,12 @@
-from flask import render_template, request, url_for, redirect, flash, current_app
+from flask import render_template, request, url_for, redirect, flash, current_app, jsonify
 import re
 from models import *
 from datetime import datetime
 import os
 from werkzeug.utils import secure_filename
 import uuid
-    
+from sqlalchemy import text
+
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in current_app.config['ALLOWED_EXTENSIONS']
 
@@ -122,11 +123,10 @@ def register_routes(app, db):
 
                 for foto in fotos:
                     filename=secure_filename(foto.filename)
-                    relative_folder = 'uploads'
-                    filepath=os.path.join(current_app.config['UPLOAD_FOLDER'], filename)
+                    filepath = os.path.normpath(os.path.join(current_app.config['UPLOAD_FOLDER'], filename))
+                    os.makedirs(os.path.dirname(filepath), exist_ok=True)
                     foto.save(filepath)
                     ruta_relativa = f"uploads/{filename}"
-                    
                     nueva_foto=Foto(
                         actividad_id=nueva_actividad.id,
                         ruta_archivo=ruta_relativa,
@@ -148,11 +148,22 @@ def register_routes(app, db):
         
     @app.route('/listado')
     def listado():
-        page = request.args.get('page', 1, type=int)
-        per_page=5
+        
+        try:
+            page = int(request.args.get('page', 1))
+            if page <1:
+                raise ValueError
+        except (ValueError, TypeError):
+            page = 1
 
-        pagination = Actividad.query.order_by(Actividad.dia_hora_inicio.desc()).paginate(page=page, per_page=per_page)
+        per_page=5
+        pagination = Actividad.query.order_by(Actividad.dia_hora_inicio.desc()).paginate(page=page, per_page=per_page, error_out=False)
         actividades = pagination.items
+
+        if pagination.pages == 0 and page > 1:
+            return redirect(url_for('listado', page=1))
+        elif page > pagination.pages and pagination.pages > 0:
+            return redirect(url_for('listado', page=pagination.pages))
 
         return render_template('list.html', actividades=actividades, pagination = pagination)
     
@@ -164,3 +175,97 @@ def register_routes(app, db):
     def detalle_actividad(actividad_id):
         actividad = Actividad.query.get_or_404(actividad_id)
         return render_template('details.html', actividad=actividad)
+    
+
+    @app.route('/api/estadisticas/actividades_por_dia')
+    def actividades_por_dia():
+        result = db.session.execute(text("""
+            SELECT DATE(dia_hora_inicio) AS fecha, COUNT(*) AS cantidad
+            FROM actividad
+            GROUP BY fecha
+            ORDER BY fecha
+        """)).mappings()
+        data = []
+        for row in result:
+            data.append({
+                'fecha': row['fecha'].strftime("%Y-%m-%d"),
+                'cantidad': row['cantidad']
+            })
+        return jsonify(data)
+    
+    @app.route('/api/estadisticas/actividades_por_tema')
+    def actividad_por_tema():
+        result = db.session.execute(text("""
+            SELECT tema, COUNT(*) as cantidad
+            FROM actividad_tema
+            GROUP BY tema
+        """))
+        data = [{'tema': row[0], 'cantidad': row[1]} for row in result]
+        return jsonify(data)
+    
+    @app.route('/api/estadisticas/actividades_por_hora')
+    def actividades_por_hora():
+        sql = """
+            SELECT
+                DATE_FORMAT(dia_hora_inicio, '%Y-%m') AS mes,
+                SUM(CASE WHEN HOUR(dia_hora_inicio) BETWEEN 6 AND 11 THEN 1 ELSE 0 END) AS manana,
+                SUM(CASE WHEN HOUR(dia_hora_inicio) BETWEEN 12 AND 14 THEN 1 ELSE 0 END) AS mediodia,
+                SUM(CASE WHEN HOUR(dia_hora_inicio) BETWEEN 15 AND 20 THEN 1 ELSE 0 END) AS tarde
+            FROM tarea2.actividad
+            WHERE dia_hora_inicio IS NOT NULL
+            AND YEAR(dia_hora_inicio) BETWEEN 2020 AND 2030
+            GROUP BY mes
+            ORDER BY mes;
+        """
+        result = db.session.execute(text(sql)).mappings()
+        data = []
+        for row in result:
+            data.append({
+                'mes': row['mes'],
+                'manana': int(row['manana']),
+                'mediodia': int(row['mediodia']),
+                'tarde': int(row['tarde']),
+            })
+        return jsonify(data)
+
+
+
+    @app.route('/agregar_comentario', methods=['POST'])
+    def agregar_comentario():
+        data = request.get_json()
+        nombre = data.get('nombre', '').strip()
+        texto = data.get('texto', '').strip()
+        actividad_id = data.get('actividad_id')
+
+        errors = []
+        if not nombre or len(nombre)<3 or len(nombre)>80:
+            errors.append("El nombre debe tener entre 3 y 80 caracteres.")
+        if not texto or len(texto)<5 or len(texto)>300:
+            errors.append("El comentario debe tener entre 5 y 300 caracteres.")
+        if not actividad_id:
+            errors.append("ID de actividad inválido")
+        
+        if errors:
+            return jsonify({'success': False, 'errors': errors}), 400
+
+        comentario = Comentario(
+            nombre=nombre,
+            texto=texto,
+            actividad_id=actividad_id,
+            fecha=datetime.now(timezone.utc)
+        )
+        db.session.add(comentario)
+        db.session.commit()
+        return jsonify({'success': True})
+    
+    @app.route('/comentarios/<int:actividad_id>', methods=['GET'])
+    def obtener_comentarios(actividad_id):
+        comentarios = Comentario.query.filter_by(actividad_id=actividad_id).order_by(Comentario.fecha.desc()).all()
+        data = []
+        for c in comentarios:
+            data.append({
+                'nombre': c.nombre,
+                'texto': c.texto,
+                'fecha': c.fecha.strftime('%Y-%m-%d %H:%M:%S UTC')
+            })
+        return jsonify(data)
