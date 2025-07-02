@@ -3,3 +3,7 @@ En el apartado Lista, se debe presionar el texto para abrir la pestaña de detal
 En el formulario, se pueden seleccionar más de dos temas y contactos, pero para ello debe presionarse ctrl+click_izquierdo en las opciones a seleccionar.
 Lo mismo para las imágenes, en el detalle saldrán todas las que se presionen segúne el ctrl+click_izquierdo, pero en el Listado solo la primera.
 Puede que hayan algunos valores nada que ver en la tabla en caso de que no se reinicien los esquemas, fue los que use para probar.
+-- Tarea 4 --
+Según lo comprendido, se trabajó únicamente en la sección de evaluación utilizando SpringBoot. En sí, lo cubierto por Flask se utiliza para la carga de datos y Spring para la evaluación de las actividades cargadas.
+Modifiqué el SQL de tabla-nota ya que según trate de entender los atributos nota y valor, uno era para el promedio y el otro para la nota que se seleccionaba, pero al obtener el promedio de forma dinamica, se eliminó uno de estos atributos ya que generaba conflicto en la inserción (al faltar uno).
+De todas maneras, se buscó que el proyecto cumpliera con lo solicitado en el enunciado y dado que este funcionó sin problemas luego de descartar uno de los atributos, este cambio se mantuvo.
