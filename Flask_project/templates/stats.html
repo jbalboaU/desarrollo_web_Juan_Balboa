@@ -1,0 +1,67 @@
+{% extends 'base.html' %} {% block title %} Estadísticas {% endblock %} {% block css%}
+    <link
+        rel = "stylesheet"
+        type = "text/css"
+        href = "{{ url_for('static', filename = 'css/stats.css')}}"
+    >
+    {% endblock %} {% block content %}
+    <h1>Estadísticas</h1>
+
+    <div class = "contenedor-1">
+        <div id="grafico1"></div>
+    </div>
+    <div class = "contenedor-2">
+        <div id="grafico2"></div>
+    </div>
+    <div class = "contenedor-3">
+        <div id="grafico3"></div>
+    </div>
+
+    <a href="{{ url_for('index') }}" class="return-button"> Inicio </a>
+    {% endblock %} {% block javascript %}
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+
+    <script>
+        //Gráfico 1
+        fetch('/api/estadisticas/actividades_por_dia')
+        .then(res=>res.json())
+        .then(data => {
+            Highcharts.chart('grafico1', {
+                chart: {type: 'line'},
+                title: {text: 'Actividades por Día'},
+                xAxis: {categories: data.map(d => d.fecha)},
+                yAxis: {title: {text: 'Cantidad'}},
+                series: [{name: 'Actividades', data: data.map(d=>d.cantidad)}]
+            });
+        }); 
+        //Gráfico 2
+        fetch('/api/estadisticas/actividades_por_tema')
+        .then(res=>res.json())
+        .then(data => {
+            Highcharts.chart('grafico2', {
+                chart: {type: 'pie'},
+                title: {text: 'Actividades por Tipo'},
+                series: [{
+                    name: 'Actividades', 
+                    data: data.map(d => ({name: d.tema, y:d.cantidad}))
+                }]
+            });
+        });
+        //Gráfico 3
+        fetch('/api/estadisticas/actividades_por_hora')
+        .then(res=>res.json())
+        .then(data => {
+            Highcharts.chart('grafico3', {
+                chart: {type: 'column'},
+                title: {text: 'Actividades por Mes y Horario'},
+                xAxis: {categories: data.map(d => d.mes)},
+                yAxis: {title: {text: 'Cantidad'}},
+                series: [
+                    {name: 'Mañana', data: data.map(d=>d.manana)},
+                    {name: 'Mediodía', data: data.map(d=>d.mediodia)},
+                    {name: 'Tarde', data: data.map(d=>d.tarde)},
+                ]
+            });
+        }); 
+    </script>
+    {% endblock %}

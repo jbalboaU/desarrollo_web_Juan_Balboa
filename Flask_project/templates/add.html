@@ -1,0 +1,119 @@
+{% extends 'base.html' %} {% block title %} Agregar {% endblock %} {% block css %}
+    <link
+    rel = "stylesheet"
+    type = "text/css"
+    href = "{{ url_for('static', filename = 'css/add.css')}}"
+    >
+{% endblock %} {% block content %}
+    <h1>Formulario</h1>
+
+    <div class = "main-container">
+        <div id="val-box" hidden>
+            <h2 id="val-msg"></h2>
+            <ul id="val-list"></ul>
+        </div>
+        <div class="contenedor-form">
+            {% if errors %}
+                <div class="error-box">
+                    <ul>
+                        {% for error in errors %}
+                        <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+            <form name="myForm" action="{{ url_for('agregar') }}" method="POST" enctype="multipart/form-data">
+            <div class = "donde">
+                <h3>¿Dónde?</h3>
+            
+                <label for ="region"> Región </label>
+                <select name= "region" id ="region" required >
+                    <option value ="">Seleccione una Región</option>
+                    {% for region in regiones %}
+                        <option value="{{ region.id }}">{{ region.nombre }}</option>
+                    {% endfor %}
+                </select>
+
+                <label for = "comuna">Comuna</label>
+                <select name="comuna" id="comuna" required>
+                    <option value ="">Seleccione una Comuna</option>
+                    {% for comuna in comunas %}
+                        <option value="{{ comuna.id }}" data-region="{{ comuna.region_id }}">{{ comuna.nombre }}</option>
+                    {% endfor %}
+                </select>
+
+                <label for="sector">Sector</label>
+                <textarea name="sector" id="sector" rows="4" cols="50"></textarea>
+            </div>
+
+            <div class = "quien">
+                <h3>¿Quién organiza?</h3>
+                <label for="nombre">Nombre</label>
+                    <input name= "nombre" type = "text" id="nombre" required maxlength="200" >
+
+                <label for="email">Email</label>
+                    <input name = "email" type = "email" id="email" required maxlength="100">
+                
+                <label for="celular">Número de Celular</label>
+                    <input type = "tel" name ="celular" id="celular">
+
+                <label for="contactar_por">Contactar por:</label>
+                <select name = "contactar_por[]" id="contactar_por" multiple>
+                    <option value ="">Seleccione una Red Social</option>
+                    <option value ="whatsapp">WhatsApp</option>
+                    <option value ="telegram">Telegram</option>
+                    <option value ="X">X</option>
+                    <option value ="instagram">Instagram</option>
+                    <option value ="tiktok">Tiktok</option>
+                    <option value ="otra">Otra</option>
+                </select>
+
+                <label for="contacto_id" style = "display:none;">URL</label>
+                <textarea name="contacto_id" id="contacto_id" rows="2" cols="50" minlength="4" maxlength="50" style="display:none;"></textarea>
+            </div>
+
+            <div class = "cuando">
+                <h3>¿Cuándo y de qué trata?</h3>
+                <label for="inicio">Día hora inicio</label>
+                    <input type = "datetime-local" name="inicio" id="inicio" required >
+                
+                <label for="termino">Día hora término</label>
+                    <input type = "datetime-local" name="termino" id="termino">
+                
+                <label for="descripcion">Descripción</label>
+                    <textarea name="descripcion" id="descripcion" rows="10" cols="50"></textarea>
+                
+                <label for="tema">Temas:</label>
+                <select name="tema[]" id="tema" multiple required>
+                    <option value="música">Música</option>
+                    <option value="deporte">Deporte</option>
+                    <option value="ciencias">Ciencias</option>
+                    <option value="religión">Religión</option>
+                    <option value="política">Política</option>
+                    <option value="tecnología">Tecnología</option>
+                    <option value="juegos">Juegos</option>
+                    <option value="baile">Baile</option>
+                    <option value="comida">Comida</option>
+                    <option value="otro">Otro</option>
+                </select>
+
+                <label for="descripcion_tema" style = "display:none;">¿De qué trata?</label>
+                <textarea name="descripcion_tema" id="descripcion_tema" rows="2" cols="50" minlength="4" maxlength="50" style="display:none;" ></textarea>
+
+                <label for="fotos">Foto</label>
+                <div id="contenedor-foto">
+                    <input name="fotos[]" type="file" id="fotos" multiple required>
+                </div>
+            </div>
+
+                <button type="submit" class="submit" id="submit">Envio</button>
+            </form>
+            
+        </div>
+            <a href="{{ url_for('index') }}" class="return-button"> Inicio </a>
+    </div>
+    {% endblock %}{% block javascript %}
+    <script src="{{ url_for('static', filename='js/add.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/validation.js') }}"></script>
+
+    {% endblock %}
