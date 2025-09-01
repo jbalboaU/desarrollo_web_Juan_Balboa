@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang ="es" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/evaluar.css}">
+    <title>Evaluar</title>
+
+</head>
+<body>
+    <h1>Actividades Finalizadas</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Fecha Inicio</th>
+                <th>Sector</th>
+                <th>Nombre</th>
+                <th>Tema</th>
+                <th>Nota</th>
+                <th>Evaluar</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="act : ${actividades}">
+                <td th:text="${act.id}"></td>
+                <td th:text="${#temporals.format(act.fechaInicio, 'yyyy-MM-dd HH:mm')}"></td>
+                <td th:text="${act.sector}"></td>
+                <td th:text="${act.nombre}"></td>
+                <td th:text="${act.temas[0].tema}"></td>
+                <td th:attr="data-actividad-id=${act.id}" th:text="${#lists.isEmpty(act.notas)}?'-' : ${#numbers.formatDecimal(#aggregates.avg(act.notas.![valor]), 1, 1)}"></td>
+                <td>
+                    <a href="#" onclick="mostrarSelect(this); return false;">Evaluar</a>
+                    <select style="display:none" th:attr="data-id=${act.id}">
+                        <option selected disabled>--</option>
+                        <option th:each="i : ${#numbers.sequence(1,7)}" th:value="${i}" th:text="${i}"></option>
+                    </select>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <script>
+        function mostrarSelect(linkElement){
+            const cell= linkElement.parentElement;
+            const selectElement=cell.querySelector("select");
+            selectElement.style.display="inline";
+            linkElement.style.display="none";
+
+            selectElement.addEventListener("change", function(){
+                const actividadId= selectElement.getAttribute("data-id");
+                const valor=selectElement.value;
+                
+                if(valor<1 || valor>7){
+                    alert("Nota inválida");
+                    return;
+                }
+
+                fetch('/evaluar', {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/x-www-form-urlencoded"
+                    },
+                    body: `actividadId=${actividadId}&valor=${valor}`
+                })
+                .then(res => res.text())
+                .then(promedio => {
+                    const row = linkElement.closest("tr");
+                    const notaCell = row.querySelector("td[data-actividad-id]");
+                    notaCell.textContent= promedio;
+                    
+                    selectElement.selectedIndex=0;
+
+                    selectElement.style.display="none";
+                    linkElement.style.display="inline";
+                })
+                .catch(err=> alert("Error al enviar nota"));
+        });
+    }
+    </script>
+</body>
+</html>
